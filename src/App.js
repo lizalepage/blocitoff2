@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {Route, Link} from 'react-router-dom';
 import './App.css';
 import * as firebase from 'firebase';
 import TaskList from './Components/TaskList.js';
+import OldTask from './Components/OldTask.js';
 
 var config = {
     apiKey: "AIzaSyCNjFq0XoicCtaxBJZjYlNuKF_L3BArUzo",
@@ -15,17 +16,23 @@ var config = {
   firebase.initializeApp(config);
 
 class App extends Component {
-  constructor(props){
-    super(props);
 
 
-  }
   render() {
     return (
       <div className="App">
         <header className="App-header">
+
           <h1 className="App-title">Welcome to Liza Task List </h1>
+          <nav>
+             <Link to='/'>Current List</Link>
+             <Link to='/oldtasks'>Old Tasks</Link>
+           </nav>
         </header>
+        <main>
+          <Route path="/oldtasks" component={OldTask} />
+        </main>
+
         <TaskList firebase={firebase} />
       </div>
     );

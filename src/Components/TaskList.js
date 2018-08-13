@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 
 
+
 class TaskList extends Component {
 
   constructor(props){
@@ -25,12 +26,16 @@ class TaskList extends Component {
   render(){
     return(
       <section className="task-box">
-        <h1 className="task-header"> To Dos </h1>
+        <h1 className="task-header"> Current Tasks </h1>
         <section className = 'taskList'>
 
         {this.state.tasks.map( (task, index) => {
-          return <div key={task.key}> {task.name} </div>
-
+          return <div key={task.key}>
+          <li>
+            <input type="checkbox" checked={task.status.complete} />
+            <span>{task.name} </span>
+          </li>
+          </div>
       })
     }
 
