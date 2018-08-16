@@ -31,9 +31,10 @@ class App extends Component {
         </header>
         <main>
           <Route path="/oldtasks" component={OldTask} />
+          <Route exact path="/" render={(props) => <TaskList {...props} firebase={firebase}/>} />
         </main>
 
-        <TaskList firebase={firebase} />
+
       </div>
     );
   }

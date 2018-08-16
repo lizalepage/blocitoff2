@@ -20,6 +20,7 @@ class TaskList extends Component {
       const task = snapshot.val();
       task.key = snapshot.key
       this.setState({tasks: this.state.tasks.concat(task)})
+      console.log("mounted", this.state.tasks)
     });
   }
 
