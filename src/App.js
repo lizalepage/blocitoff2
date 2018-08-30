@@ -16,7 +16,25 @@ var config = {
   firebase.initializeApp(config);
 
 class App extends Component {
+  constructor(props){
+  super(props);
 
+    this.state = {
+      tasks: []
+    }
+
+    this.taskRef = firebase.database().ref('task');
+
+  }
+
+  componentDidMount(){
+    this.taskRef.on('child_added', snapshot => {
+      const task = snapshot.val();
+      task.key = snapshot.key
+      this.setState({tasks: this.state.tasks.concat(task)})
+      console.log("mounted", this.state.tasks)
+    });
+  }
 
   render() {
     return (
@@ -30,8 +48,8 @@ class App extends Component {
            </nav>
         </header>
         <main>
-          <Route path="/oldtasks" component={OldTask} />
-          <Route exact path="/" render={(props) => <TaskList {...props} firebase={firebase}/>} />
+          <Route path="/oldtasks" render={(props) => <OldTask {...props} tasks={this.state.tasks} /> } />
+          <Route exact path="/" render={(props) => <TaskList {...props} tasks= {this.state.tasks} taskRef={this.taskRef}/> } />
         </main>
 
 

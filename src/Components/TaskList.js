@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import OldTask from "./OldTask.js";
 
 
 class TaskList extends Component {
@@ -8,23 +8,14 @@ class TaskList extends Component {
   super(props);
 
   this.state = {
-    tasks: [],
+
     newTaskDescription: "",
     newTaskPriority: ""
   };
 
 
-  this.taskRef = this.props.firebase.database().ref('task');
   }
 
-  componentDidMount(){
-    this.taskRef.on('child_added', snapshot => {
-      const task = snapshot.val();
-      task.key = snapshot.key
-      this.setState({tasks: this.state.tasks.concat(task)})
-      console.log("mounted", this.state.tasks)
-    });
-  }
 
   handleChange(e){
     this.setState({newTaskDescription: e.target.value})
@@ -36,7 +27,7 @@ class TaskList extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    this.taskRef.push({
+    this.props.taskRef.push({
       name: this.state.newTaskDescription,
       priority: this.state.newTaskPriority,
       status: "Active",
@@ -50,10 +41,10 @@ class TaskList extends Component {
         <h1 className="task-header"> Current Tasks </h1>
         <section className = 'taskList'>
 
-        {this.state.tasks.map( (task, index) => {
+        {this.props.tasks.map( (task, index) => {
           var d = new Date();
           d.setDate(d.getDate() - 7)
-          if (d <= task.timecreated){
+          if (d <= task.timecreated && task.status === "Active"){
 
             return <div key={task.key}>
               <li>
