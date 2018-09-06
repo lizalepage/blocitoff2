@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import OldTask from "./OldTask.js";
-
+import moment from "moment";
 
 class TaskList extends Component {
 
@@ -12,7 +12,6 @@ class TaskList extends Component {
     newTaskDescription: "",
     newTaskPriority: ""
   };
-
 
   }
 
@@ -31,9 +30,12 @@ class TaskList extends Component {
       name: this.state.newTaskDescription,
       priority: this.state.newTaskPriority,
       status: "Active",
-      timecreated: new Date(),
+      timecreated: this.props.firebase.database.ServerValue.TIMESTAMP,
     });
+    this.setState({newTaskDescription: ""})
   }
+
+
 
   render(){
     return(
@@ -42,21 +44,22 @@ class TaskList extends Component {
         <section className = 'taskList'>
 
         {this.props.tasks.map( (task, index) => {
-          var d = new Date();
-          d.setDate(d.getDate() - 7)
-          if (d <= task.timecreated && task.status === "Active"){
+          var d = moment().diff(task.timecreated, 'day')
 
-            return <div key={task.key}>
-              <li>
-                <input type="checkbox" checked={task.status.complete} />
-                <span>{task.name} </span>
-              </li>
-            </div>
+          if (d <= 7 && task.status === "Active"){
+            return(
+              <div key={task.key}>
+                <li>
+                  <input type="checkbox" checked={task.status.complete} />
+                  <span>{task.name} </span>
+                </li>
+              </div>
 
+            )
+          }
+        })
 
-      }
-    })
-  }
+    }
 
 
       </section>

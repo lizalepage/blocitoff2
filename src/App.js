@@ -31,8 +31,9 @@ class App extends Component {
     this.taskRef.on('child_added', snapshot => {
       const task = snapshot.val();
       task.key = snapshot.key
-      this.setState({tasks: this.state.tasks.concat(task)})
+      this.setState({tasks: this.state.tasks.concat(task).sort((a,b) => b.priority - a.priority)})
       console.log("mounted", this.state.tasks)
+      //this.setState({tasks: this.state.tasks.sort((a,b) => a.priority - b.priority)})
     });
   }
 
@@ -49,7 +50,7 @@ class App extends Component {
         </header>
         <main>
           <Route path="/oldtasks" render={(props) => <OldTask {...props} tasks={this.state.tasks} /> } />
-          <Route exact path="/" render={(props) => <TaskList {...props} tasks= {this.state.tasks} taskRef={this.taskRef}/> } />
+          <Route exact path="/" render={(props) => <TaskList {...props} tasks= {this.state.tasks} taskRef={this.taskRef} firebase={firebase}/> } />
         </main>
 
 
