@@ -33,7 +33,6 @@ class App extends Component {
       task.key = snapshot.key
       this.setState({tasks: this.state.tasks.concat(task).sort((a,b) => b.priority - a.priority)})
       console.log("mounted", this.state.tasks)
-      //this.setState({tasks: this.state.tasks.sort((a,b) => a.priority - b.priority)})
     });
   }
 
