@@ -50,7 +50,7 @@ class TaskList extends Component {
             return(
               <div key={task.key}>
                 <li>
-                  <input type="checkbox" checked={task.status.complete} />
+                  <input type="checkbox" onChange={(e) => this.props.toggleComplete(index)  } />
                   <span>{task.name} </span>
                 </li>
               </div>

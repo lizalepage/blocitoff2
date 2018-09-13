@@ -19,7 +19,7 @@ class OldTask extends Component {
 
                     return <div key={task.key}>
                       <li>
-
+                        <input type="checkbox" checked={task.status === 'Completed'} onChange={(e) => this.props.toggleComplete(index)  } />
                         <span>{task.name} </span>
                       </li>
                     </div>

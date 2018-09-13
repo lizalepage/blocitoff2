@@ -37,6 +37,15 @@ class App extends Component {
     });
   }
 
+  toggleComplete(index) {
+    const theTasks = this.state.tasks.slice();
+    const currentTask = theTasks[index];
+    currentTask.status = currentTask.status === 'Active' ? 'Completed' : 'Active';
+    this.taskRef.child(currentTask.key).update(currentTask)
+    this.setState({tasks: theTasks});
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -49,8 +58,8 @@ class App extends Component {
            </nav>
         </header>
         <main>
-          <Route path="/oldtasks" render={(props) => <OldTask {...props} tasks={this.state.tasks} /> } />
-          <Route exact path="/" render={(props) => <TaskList {...props} tasks= {this.state.tasks} taskRef={this.taskRef} firebase={firebase}/> } />
+          <Route path="/oldtasks" render={(props) => <OldTask {...props} tasks={this.state.tasks} toggleComplete={ (index) => this.toggleComplete(index) } /> } />
+          <Route exact path="/" render={(props) => <TaskList {...props} tasks= {this.state.tasks} taskRef={this.taskRef} firebase={firebase} toggleComplete={ (index) => this.toggleComplete(index) }/> } />
         </main>
 
 
